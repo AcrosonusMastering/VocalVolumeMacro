@@ -1,17 +1,12 @@
 # Vocal Volume Macro
-
-> Melodyne-style vocal dynamic correction for REAPER — Lua script with spectral analysis
+> **Melodyne-Style Dynamic Volume Correction for REAPER**  
+> Intelligent, envelope-based vocal leveling using spectral analysis & tonal segmentation.
 
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![REAPER](https://img.shields.io/badge/REAPER-6%2B-blue)](https://www.reaper.fm)
 [![ReaImGui](https://img.shields.io/badge/requires-ReaImGui-orange)](https://github.com/cfillion/reaimgui)
 [![Lua](https://img.shields.io/badge/language-Lua-purple)](https://www.lua.org)
-
----
-# 🎙 Vocal Volume Macro v6.1
-> **Melodyne-Style Dynamic Volume Correction for REAPER**  
-> Intelligent, envelope-based vocal leveling using spectral analysis & tonal segmentation.
 
 ---
 
@@ -28,8 +23,8 @@ Most commercial volume riders (Waves Vocal Rider, Auto-Level, etc.) are essentia
 - 🌬️ Unwanted boosting of breaths, room noise, or mic bleed
 - 📉 Squashed vocal transients and loss of natural dynamics
 
-**VVM v6.1 takes a fundamentally different approach:**
-| Traditional Riders | Vocal Volume Macro v6.1 |
+**VVM takes a fundamentally different approach:**
+| Traditional Riders | Vocal Volume Macro |
 |-------------------|------------------------|
 | Real-time compressor/expander chains | Offline spectral analysis & segmentation |
 | Reacts to overall level | Classifies audio by **ZCR, Spectral Centroid & Flux** |
@@ -42,7 +37,7 @@ In short: **VVM doesn't compress or expand. It analyzes, segments, and automates
 
 ---
 
-## ✨ Key Features (v6.1)
+## ✨ Key Features
 - 🔍 **Block-Based Spectral Analysis** – Classifies 10ms blocks as tonal, consonant, or silent
 - 🚪 **Adaptive Gate Threshold** – Ignores breaths, bleed, and room noise below a configurable dB floor
 - 🌉 **Gap Bridging (Vibrato Fix)** – Automatically merges tonal blocks separated by <100ms gaps (prevents micro-segmentation on vibrato)
@@ -121,25 +116,14 @@ The display updates in real-time as you adjust `Target RMS` or `Gate Threshold`,
 
 ---
 
-## 📜 Changelog
-### v6.1
-- `[V6-1]` **Gate Threshold** – Real-time slider to ignore breaths/bleed below a configurable dB floor
-- `[V6-2]` **Gap Bridging** – Fuses tonal blocks separated by <100ms gaps (fixes vibrato/consonant micro-segments)
-- `[V6-3]` **Auto-Target RMS** – Automatically aligns target to average RMS of tonal blocks only
-- `[V6-4]` **"↺ Auto" Button** – Instantly resets target to the auto-calculated value
-- `[V6.1]` **Visual Waveform Analyzer** – Real-time color-coded rendering (Green/Red/Gray)
-
-*(Previous versions: v4.x → v5.x → v6.0 baseline with async analysis, envelope decimation, spectral classification)*
-
----
-
 ## 🤝 Credits & License
+- **Developed by:** Acrosonus Mastering
 - **Developed for:** REAPER + ReaImGui
 - **Algorithm:** Custom spectral classification (ZCR + Spectral Centroid + Flux) + adaptive segmentation
-- **License:** Free for personal & commercial use. Provided as-is. No warranty.
-- **Feedback/Issues:** Open a GitHub issue or contact the developer directly.
 
 > 🎙 *Level vocals like a pro. Without compressing them into submission.*
+
+
 ## License
 
 ```
@@ -167,8 +151,3 @@ https://www.gnu.org/licenses/gpl-3.0.html
 - ❌ Derivative works must remain open source under GPL v3
 
 ---
----
-
-## License
-
-MIT — free to use, modify and distribute. Credit appreciated.
