@@ -2,6 +2,10 @@
 > **Melodyne-Style Dynamic Volume Correction for REAPER**  
 > Intelligent, envelope-based vocal leveling using spectral analysis & tonal segmentation.
 
+Download script in the release ➡️
+Or if you are lost on Github Direct link:
+https://drive.google.com/file/d/1W9RhRGoSjpxSgX_wU3ExEzF5Lo0m00MR/view?usp=sharing
+
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![REAPER](https://img.shields.io/badge/REAPER-6%2B-blue)](https://www.reaper.fm)
