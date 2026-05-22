@@ -9,122 +9,137 @@
 [![Lua](https://img.shields.io/badge/language-Lua-purple)](https://www.lua.org)
 
 ---
-
-## What it does
-
-Vocal Volume Macro analyses a vocal recording block by block and applies volume correction **only on tonal blocks** (sung vowels, held notes), leaving consonants, sibilants and breath noises completely untouched.
-
-This is the core behaviour of Melodyne's Volume Macro — reproduced inside REAPER without any third-party plugin, using pure DSP in Lua.
-
-```
-Before  │  uneven dynamics
-After   │  tonal parts levelled, noise intact
-```
+# 🎙 Vocal Volume Macro v6.1
+> **Melodyne-Style Dynamic Volume Correction for REAPER**  
+> Intelligent, envelope-based vocal leveling using spectral analysis & tonal segmentation.
 
 ---
 
-## Why not just use a compressor?
+## 📖 Overview
+**Vocal Volume Macro (VVM)** is a REAPER script that analyzes vocal performances block-by-block, classifies audio into tonal, consonant, and silent regions, and writes precise, editable gain automation directly to a **Take Volume Envelope**. 
 
-A compressor acts on overall amplitude with no content awareness. It cannot tell whether a volume peak is a sung **A** or a **S** sibilant. Sibilants ride up with vowels, intelligibility degrades, the voice loses its natural feel.
-
-This script solves it at the block level:
-
-| Feature | Compressor | This script |
-|---|---|---|
-| Acts on vowels only | ✗ | ✓ |
-| Preserves sibilants | ✗ | ✓ |
-| Preserves plosives | ✗ | ✓ |
-| Non-destructive | depends | ✓ Take Envelope |
-| Follows item if moved | ✗ | ✓ |
-| Adjustable per voice type | limited | ✓ |
+It behaves like a manual, surgical leveler: identifying exactly where sung notes begin and end, ignoring breaths/bleed, bridging natural vibrato dips, and applying mathematically calculated gain targets without altering transients or introducing pumping artifacts.
 
 ---
 
-## Features
+## 🆚 How It Differs from Traditional "Volume Rider" Plugins
+Most commercial volume riders (Waves Vocal Rider, Auto-Level, etc.) are essentially **fast-acting compressors/expanders with sidechain filtering**. They react to RMS peaks in real-time, which often leads to:
+- 🔊 Gain pumping or breathing artifacts
+- 🌬️ Unwanted boosting of breaths, room noise, or mic bleed
+- 📉 Squashed vocal transients and loss of natural dynamics
 
-- **4-feature classification** per 10 ms block: RMS · ZCR · Spectral Centroid · Spectral Flux
-- **Hann windowing** on DFT — eliminates spectral leakage (±2% vs ±30% without)
-- **DC blocker** before ZCR — robust to preamp/interface DC offset
-- **Adaptive silence threshold** — auto-detects noise floor from the recording itself
-- **Async analysis** via `reaper.defer` — no UI freeze on long takes, cancellable
-- **Per-block gain** (Melodyne blob mode) or constant segment gain (compressor mode)
-- **Double-pass smoothing** — zero-phase anti-zipper filter, transitions centred on syllables
-- **Take Volume Envelope** — automation follows the item if you move it
-- **Pre-computed trig/Hann tables** — fast re-analysis when only correction params change
-- **ReaImGui GUI** with live segment map, gain preview, adaptive freq display
+**VVM v6.1 takes a fundamentally different approach:**
+| Traditional Riders | Vocal Volume Macro v6.1 |
+|-------------------|------------------------|
+| Real-time compressor/expander chains | Offline spectral analysis & segmentation |
+| Reacts to overall level | Classifies audio by **ZCR, Spectral Centroid & Flux** |
+| Boosts/cuts continuously | Applies gain **only to tonal blocks** |
+| Hard to edit after rendering | Writes **native REAPER envelope points** (fully editable) |
+| Often boosts breaths & noise | **Adaptive gate** ignores sub-threshold audio |
+| Fixed attack/release curves | **Gap bridging** fuses vibrato dips into continuous segments |
 
----
-
-## Requirements
-
-| Dependency | Version | Install |
-|---|---|---|
-| REAPER | 6.0+ | [reaper.fm](https://www.reaper.fm) |
-| ReaImGui | latest | ReaPack → Browse packages → "ReaImGui" |
+In short: **VVM doesn't compress or expand. It analyzes, segments, and automates.** The result is natural, transparent vocal leveling that preserves performance dynamics and breaths exactly where they belong.
 
 ---
 
-## Installation
-
-1. Download `VocalVolumeMacro_v5.lua`
-2. Copy to your REAPER Scripts folder:
-   - **Windows:** `%APPDATA%\REAPER\Scripts\`
-   - **macOS:** `~/Library/Application Support/REAPER/Scripts/`
-3. In REAPER: **Actions → Show action list → New action → Load ReaScript**
-4. Select the `.lua` file
-5. Optionally assign a keyboard shortcut
-
----
-
-## Quick start
-
-1. Select a vocal item in REAPER
-2. Run the script
-3. Click **Analyse** — watch the progress bar
-4. Check the segment map: `▓` = tonal (will be corrected), `░` = noise (untouched)
-5. Adjust target level and correction strength
-6. Click **Apply**
-7. `Ctrl+Z` to undo if needed
+## ✨ Key Features (v6.1)
+- 🔍 **Block-Based Spectral Analysis** – Classifies 10ms blocks as tonal, consonant, or silent
+- 🚪 **Adaptive Gate Threshold** – Ignores breaths, bleed, and room noise below a configurable dB floor
+- 🌉 **Gap Bridging (Vibrato Fix)** – Automatically merges tonal blocks separated by <100ms gaps (prevents micro-segmentation on vibrato)
+- 🎯 **Auto-Target RMS** – Calculates the optimal target level from *tonal blocks only* (ignores silences/consonants)
+- 🔄 **"↺ Auto" Button** – Instantly resets your target to the auto-calculated RMS
+- 📊 **Visual Waveform Analyzer** – Real-time color-coded display:
+  - 🟩 **Green** = Tonal (corrected)
+  - 🟥 **Red** = Consonants/Sibilants (preserved)
+  - ⬜ **Gray** = Silence/Gate (untouched)
+- ⚡ **Async Processing** – Non-blocking analysis with ETA & cancel support
+- 📉 **Intelligent Envelope Decimation** – Writes only meaningful points (hundreds instead of thousands)
+- 💾 **Session Persistence** – All parameters auto-save via `reaper.ExtState`
+- ♻️ **Full Undo/Redo** – Integrated with REAPER's native undo system
 
 ---
 
-## Recommended chain order
+## 🛠 Requirements & Installation
+### Requirements
+- **REAPER 6.0+**
+- **[ReaImGui](https://github.com/cfillion/reaimgui)** (install via ReaPack → `Extensions > ReaPack > Browse Packages`)
+- An audio item with an active take
 
-```
-[Vocal Volume Macro]  ← pre-correction, tonal parts only
-      ↓
-  [De-esser]          ← sibilants intact, clean target
-      ↓
-  [Compressor]        ← already balanced, lighter settings
-      ↓
-     [EQ]
-      ↓
-  [Reverb / FX]
-```
+### Installation
+1. Open REAPER → `Actions > Show Action List`
+2. Click `ReaScript: Load...` → Select `VocalVolumeMacrogemini.lua`
+3. Assign a custom shortcut or add to a toolbar
+4. **First run:** The script will prompt you to install ReaImGui if missing.
 
 ---
 
-## Files
+## 🚀 Usage Workflow
+1. **Select** your vocal item in the Arrange view
+2. **Run** the script → GUI opens
+3. **Adjust** analysis & correction parameters (see below)
+4. Click **🔍 Analyse** → Wait for async processing (progress bar + ETA)
+5. **Preview** results in the waveform analyzer & stats panel
+6. Tweak `Target RMS`, `Gate`, or `Correction Strength` as needed
+7. Click **✅ Apply** → Writes automation to a Take Volume Envelope
+8. Use **Ctrl+Z** to undo at any time
 
-| File | Description |
-|---|---|
-| `VocalVolumeMacro_v5.lua` | Main script |
-| `README.md` | This file |
-| `USER_MANUAL.md` | Full user manual with parameter reference |
-| `TECHNICAL_DOC.md` | Algorithm documentation and architecture |
+> 💡 *Tip: The script creates/arms a Take Volume Envelope automatically. You can edit, smooth, or delete points manually after applying.*
 
 ---
 
-## Version history
+## 🎛 Parameters Explained
+| Parameter | Description | Recommended Range |
+|-----------|-------------|-------------------|
+| `ZCR Threshold` | Zero-Crossing Rate max for tonal detection | `0.08 – 0.15` |
+| `Spectral Centroid Max` | Frequency ceiling for vocal tonality | `800 – 2500 Hz` |
+| `Consonant Onset (Flux)` | Sensitivity to plosives/sibilants | `0.20 – 0.40` |
+| `Target RMS (dB)` | Desired average vocal level | `-18 to -14 dB` (lead), `-24 to -18 dB` (BGV) |
+| `Gate Threshold (dB)` | Blocks below this gain remain untouched | `-45 to -30 dB` |
+| `Vibrato/Gap Tolerance` | Max gap to bridge into one segment | `80 – 120 ms` (default) |
+| `Correction Strength` | % of calculated gain to apply | `60 – 100%` |
+| `Volume Rider Mode` | ☑ Per-block (fast leveling) / ☐ Per-segment (Melodyne-style) | Toggle based on genre |
+| `Smoothing` | Gain transition speed (Rider mode only) | `0.20 – 0.35` |
 
-| Version | Key changes |
-|---|---|
-| v5.0 | Double-pass zipper filter · adaptive silence threshold · UTF-8 safe segment map · flux_smooth reset on cancel |
-| v4.0 | N_eff off-by-one fix · SC slider freq cap · robust segment merge · flux threshold in GUI |
-| v3.0 | Take Envelope · async defer · item lock · fade clamp |
-| v2.0 | Spectral Flux onset detection · Hann windowing · per-block gain |
-| v1.0 | ZCR + Spectral Centroid · basic GUI |
+---
 
+## 📸 Visual Waveform Analyzer
+After analysis, the bottom panel renders a color-coded bar graph representing your vocal track:
+- 🟩 **Green bars** → Tonal regions receiving gain correction
+- 🟥 **Red bars** → Consonants/sibilants preserved above gate
+- ⬜ **Gray bars** → Silence, breaths, or sub-gate audio (gain = 1.0)
+
+The display updates in real-time as you adjust `Target RMS` or `Gate Threshold`, giving you immediate visual feedback before applying.
+
+---
+
+## ⚠️ Important Notes
+- 🔒 **Non-destructive:** Only writes envelope automation. Original audio remains untouched.
+- 📁 **Source sync aware:** Correctly handles cut items, playrate changes, and start offsets.
+- 🧠 **Auto-target logic:** Calculates RMS *only from tonal blocks* to avoid skew from silence/noise.
+- 🔄 **Re-analysis required** when changing `block_ms`, `ZCR`, `SC`, or `Flux` thresholds.
+- 💾 Always keep a backup or use `Undo` before applying automation to critical tracks.
+
+---
+
+## 📜 Changelog
+### v6.1
+- `[V6-1]` **Gate Threshold** – Real-time slider to ignore breaths/bleed below a configurable dB floor
+- `[V6-2]` **Gap Bridging** – Fuses tonal blocks separated by <100ms gaps (fixes vibrato/consonant micro-segments)
+- `[V6-3]` **Auto-Target RMS** – Automatically aligns target to average RMS of tonal blocks only
+- `[V6-4]` **"↺ Auto" Button** – Instantly resets target to the auto-calculated value
+- `[V6.1]` **Visual Waveform Analyzer** – Real-time color-coded rendering (Green/Red/Gray)
+
+*(Previous versions: v4.x → v5.x → v6.0 baseline with async analysis, envelope decimation, spectral classification)*
+
+---
+
+## 🤝 Credits & License
+- **Developed for:** REAPER + ReaImGui
+- **Algorithm:** Custom spectral classification (ZCR + Spectral Centroid + Flux) + adaptive segmentation
+- **License:** Free for personal & commercial use. Provided as-is. No warranty.
+- **Feedback/Issues:** Open a GitHub issue or contact the developer directly.
+
+> 🎙 *Level vocals like a pro. Without compressing them into submission.*
 ## License
 
 ```
