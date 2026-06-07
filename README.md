@@ -2,10 +2,16 @@
 > **Melodyne-Style Dynamic Volume Correction for REAPER**  
 > Intelligent, envelope-based vocal leveling using spectral analysis & tonal segmentation.
 
+V1.1 available
+Changelog:
+Fix: Automation for Items in middle of timeline, Remplace TakeAudioAccessor by TrackAudioAccessor
+Fix: Spectral centroid reset
+
+
 Download script in the release ➡️
 
 Or if you are lost on Github Direct link:
-https://drive.google.com/file/d/1W9RhRGoSjpxSgX_wU3ExEzF5Lo0m00MR/view?usp=sharing
+https://drive.google.com/file/d/1rsJ6O8wGIbAWAc1bQ-hxZjx9FOUteGAU/view?usp=sharing
 
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
