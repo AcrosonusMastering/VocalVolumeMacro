@@ -5,6 +5,7 @@
 V1.1 available
 Changelog:
 Fix: Automation for Items in middle of timeline, Remplace TakeAudioAccessor by TrackAudioAccessor
+
 Fix: Spectral centroid reset
 
 
