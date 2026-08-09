@@ -4,6 +4,7 @@
 
 Changelog:
 V1.5 AVAILABLE
+
 --   [#1] Perceptive K-weighting (60Hz high-pass + 4dB high-shelf @ 3kHz)
 --        applied to RMS/gain calculation to match perceived loudness (equal-loudness contours).
 
