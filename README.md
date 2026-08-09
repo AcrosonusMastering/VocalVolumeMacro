@@ -27,7 +27,7 @@ V1.1 Available
 Download script in the release ➡️
 
 Or if you are lost on Github Direct link:
-https://drive.google.com/file/d/1rsJ6O8wGIbAWAc1bQ-hxZjx9FOUteGAU/view?usp=sharing
+[https://drive.google.com/file/d/1rsJ6O8wGIbAWAc1bQ-hxZjx9FOUteGAU/view?usp=sharing](https://drive.google.com/file/d/1JKTvyNw4CObvpZNTpJkXZzO8xcBDkfhu/view?usp=sharing)
 
 
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
