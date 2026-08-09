@@ -4,13 +4,12 @@
 
 Changelog:
 V1.5 AVAILABLE
-[#1] Perceptive K-weighting (60Hz high-pass + 4dB high-shelf @ 3kHz)
-      applied to RMS/gain calculation to match perceived loudness (equal-loudness contours).
-[#2] Independent asymmetric attack/release smoothing to
-      prevent background noise pumping while quickly taming peaks.
-[#3] "Live" sliders for ZCR, SC, and Flux: reclassification and
-      instantaneous display update without re-reading the audio.
-
+--   [#1] Perceptive K-weighting (60Hz high-pass + 4dB high-shelf @ 3kHz)
+--        applied to RMS/gain calculation to match perceived loudness (equal-loudness contours).
+--   [#2] Independent asymmetric attack/release smoothing to
+--        prevent background noise pumping while quickly taming peaks.
+--   [#3] "Live" sliders for ZCR, SC, and Flux: reclassification and
+--        instantaneous display update without re-reading the audio.
 
 
 V1.1 Available
