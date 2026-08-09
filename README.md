@@ -15,15 +15,6 @@ V1.5 AVAILABLE
         instantaneous display update without re-reading the audio.
 
 
-V1.1 Available
-
-    Fix: Resolved automation issues for items in the middle of the timeline (replaced TakeAudioAccessor with TrackAudioAccessor).
-
-    Fix: Fixed the spectral centroid reset bug.
-
-    Enhancement: Improved the gain calculation algorithm for better accuracy/performance.
-
-
 Download script in the release ➡️
 
 Or if you are lost on Github Direct link:
