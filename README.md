@@ -4,6 +4,7 @@
 
 Changelog:
 V1.5.1 AVAILABLE
+
 Double click reset fader
 
 
